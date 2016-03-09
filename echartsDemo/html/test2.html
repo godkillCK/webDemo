@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../js/echarts.js"></script>
+    <script src="../js/jquery-1.12.1.js"></script>
+    <script src="../map/china.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+
+    var chart = echarts.init(document.getElementById('main'));
+
+    $.get('map/hubei.json', function (hubeiJson) {
+        echarts.registerMap('hubei', hubeiJson);
+        chart.setOption({
+            geo: {
+                name: 'hubei',
+                roam: true,
+                map: 'hubei'
+            },
+            series: [{
+                type: 'map',
+                map: 'hubei'
+            }]
+        });
+    });
+
+</script>
+</body>
+</html>
