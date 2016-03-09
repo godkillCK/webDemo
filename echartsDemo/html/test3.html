@@ -12,16 +12,33 @@
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="position:absolute;width:100%;height:100%;">
+<div id="main" style="position:absolute;z-index:2;width:100%;height:100%;"></div>
+<div id="amount" style="position:absolute;z-index:3;width:100%;height:10%;margin:5% auto;">11</div>
+
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
+
+    var titleChart = echarts.init(document.getElementById('amount'));
+
+    var titleOption = {
+        title: {
+            show: true,
+            text: '100,000,000',
+            left: 'center',
+            textStyle: {
+                color: '#fff'
+            }
+        }
+    };
+    titleChart.setOption(titleOption);
     // 指定图表的配置项和数据
 
     $.get('../data/testData.json', function (testData) {
         option = {
             backgroundColor: '#404a59',
             title: {
+                show: false,
                 text: '100,000,000',
                 subtext: 'data from PM25.in',
                 sublink: 'http://www.pm25.in',
@@ -70,7 +87,8 @@
                     emphasis: {
                         areaColor: '#2a333d'
                     }
-                }
+                },
+                zlevel: 2
             },
             series : [
                 {
@@ -93,7 +111,8 @@
                             color: '#ddb926'
                         }
                     },
-                    data: convertData(data)
+                    data: convertData(data),
+                    zlevel: 2
                 }
             ]
         };
