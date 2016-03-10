@@ -32,9 +32,16 @@
 
 <body class="container-fluid">
 <div id="main"
-	 style="position: absolute; z-index: 2; width: 100%; height: 100%; background: #1b6d85"></div>
+	 style="position: absolute; z-index: 3; width: 100%; height: 100%;">
+</div>
+<!--<div id="main1"-->
+     <!--style="position: absolute; z-index: 2; width: 100%; height: 100%;">-->
+    <!--<img src="../img/map-world.png" style="max-width:100%;"/>-->
+<!--</div>-->
 <div class="row">
-	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+		<img src="https://esignweb.oss-cn-hangzhou.aliyuncs.com/imgs/1cc5a26b-a05b-4b64-bb23-254daa6231e5?Expires=1767577655&amp;OSSAccessKeyId=FBzUaPMorqiiUAfb&amp;Signature=DV0G9ZJx4uUiwO34Ly6CsdMn7RE%3D">
+	</div>
 
 	<div id="amount"
 		 class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center "
@@ -61,6 +68,9 @@
 	// 地图层
 	var myChart = echarts.init(document.getElementById('main'));
 
+    $.get('../map/china1.json', function (worldJson) {
+        echarts.registerMap('china1', worldJson);
+    });
 	//$.get('../../main/rpc/getSignAreaData.json', function (data) {
 	$.get('../data/data.json', function (data) {
 		option = {
@@ -95,7 +105,7 @@
 				max : 100000,
 				calculable : true,
 				inRange : {
-					color : [ '#F7A119', '#F7A119' ],
+					color : [ '#F7A119', '#F7A200' ],
 					colorLightness : [ 0.2, 0.8 ],
 					symbolSize : [ 7, 7 ]
 				},
@@ -120,7 +130,7 @@
 						areaColor : '#2a333d'
 					}
 				},
-				zlevel : 2
+				zlevel : 4
 			},
 			series : [//散点样式
 				{
@@ -139,7 +149,7 @@
 						}
 					},
 					data : convertData(data),
-					zlevel : 2
+					zlevel : 4
 				} ]
 		};
 		myChart.setOption(option);
