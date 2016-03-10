@@ -1,145 +1,192 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>ECharts</title>
-    <!-- 引入 echarts.js -->
-    <script src="../js/echarts.js"></script>
-    <script src="../js/jquery-1.12.1.js"></script>
-    <script src="../map/china.js"></script>
+	<meta charset="utf-8">
+	<title>ECharts</title>
+	<!-- 引入 echarts.js -->
+	<script src="../js/echarts.js"></script>
+	<script src="../js/jquery-1.12.1.js"></script>
+	<script src="../map/china.js"></script>
+	<script src="../map/world.js"></script>
+	<script src="../js/countUp.js"></script>
+	<script src="../data/china-city-geo.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="../css/bootstrap.css"/>
+	<link type="text/css" rel="stylesheet" href="../css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="../css/SourceSansPro.css" />
+
+	<style>
+		h1.jumbo {
+			font-family: 'Source Sans Pro';
+			font-size: 6em;
+			margin: 0;
+			color: #f7a119;
+		}
+	</style>
 </head>
+<!--
 <body>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+&lt;!&ndash; 为ECharts准备一个具备大小（宽高）的Dom &ndash;&gt;
 <div id="main" style="position:absolute;z-index:2;width:100%;height:100%;"></div>
-<div id="amount" style="position:absolute;z-index:3;width:100%;height:10%;margin:5% auto;">11</div>
+<div id="amount" style="position:absolute;z-index:3;width:20%;height:10%;margin:5% 10% 80% 40%;background: #8BC53F"></div>
+-->
 
+<body class="container-fluid">
+<div id="main"
+	 style="position: absolute; z-index: 2; width: 100%; height: 100%; background: #1b6d85"></div>
+<div class="row">
+	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+
+	<div id="amount"
+		 class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center "
+		 style="z-index: 3;">
+		<h1 id="total" class="jumbo"></h1>
+	</div>
+
+	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+</div>
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
 
-    var titleChart = echarts.init(document.getElementById('amount'));
+	// 实时总数展现
+	var numOptions = {
+		useEasing : true,
+		useGrouping : true,
+		separator : ',',
+		decimal : '.',
+		prefix : '',
+		suffix : ''
+	};
+	var demo = new CountUp("total", 0, 2795, 0, 2.5, numOptions);
+	demo.start();
 
-    var titleOption = {
-        title: {
-            show: true,
-            text: '100,000,000',
-            left: 'center',
-            textStyle: {
-                color: '#fff'
-            }
-        }
-    };
-    titleChart.setOption(titleOption);
-    // 指定图表的配置项和数据
+	// 地图层
+	var myChart = echarts.init(document.getElementById('main'));
 
-    $.get('../data/testData.json', function (testData) {
-        option = {
-            backgroundColor: '#404a59',
-            title: {
-                show: false,
-                text: '100,000,000',
-                subtext: 'data from PM25.in',
-                sublink: 'http://www.pm25.in',
-                left: 'center',
-                textStyle: {
-                    color: '#fff'
-                }
-            },
-            tooltip : {
-                trigger: 'item',
-                formatter: function (params) {//定制散点的提示格式
-                    return params.name + ' : ' + params.value[2];
-                }
-            },
-            legend: {
-                orient: 'vertical',
-                y: 'bottom',
-                x:'right',
-                data:['pm2.5'],
-                textStyle: {
-                    color: '#fff'
-                }
-            },
-            dataRange: {
-                min: 0,
-                max: 100000,
-                calculable: true,
-                color: ['#d94e5d','#eac736','#50a3ba'],
-                textStyle: {
-                    color: '#fff'
-                }
-            },
-            geo: {
-                map: 'china',
-                label: {
-                    emphasis: {
-                        show: false
-                    }
-                },
-                roam: true,
-                itemStyle: {
-                    normal: {
-                        areaColor: '#323c48',
-                        borderColor: '#111'
-                    },
-                    emphasis: {
-                        areaColor: '#2a333d'
-                    }
-                },
-                zlevel: 2
-            },
-            series : [
-                {
-                    //name: '签名',
-                    type: 'scatter',
-                    coordinateSystem: 'geo',
-                    symbolSize: 10,
-                    label: {
-                        normal: {
-                            formatter: '{b}',
-                            position: 'right',
-                            show: false
-                        },
-                        emphasis: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: '#ddb926'
-                        }
-                    },
-                    data: convertData(data),
-                    zlevel: 2
-                }
-            ]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-    });
+	$.get('../../main/rpc/getSignAreaData.json', function (data) {
+		option = {
+			backgroundColor : '#a2daf4',
+			title : {
+				show : false,
+				text : '100,000,000',
+				subtext : 'data from PM25.in',
+				sublink : 'http://www.pm25.in',
+				left : 'center',
+				textStyle : {
+					color : '#fff'
+				}
+			},
+			tooltip : {
+				trigger : 'item',
+				formatter : function(params) {//定制散点的提示格式
+					return params.name + ' : ' + params.value[2];
+				}
+			},
+			/*legend: {
+			 orient: 'vertical',
+			 y: 'bottom',
+			 x:'right',
+			 data:['pm2.5'],
+			 textStyle: {
+			 color: '#fff'
+			 }
+			 },*/
+			visualMap : {
+				min : 0,
+				max : 1000,
+				calculable : true,
+				inRange : {
+					color : [ '#F7A119', '#F7A119' ],
+					colorLightness : [ 0.2, 0.8 ],
+					symbolSize : [ 7, 7 ]
+				},
+				textStyle : {
+					color : '#333 '
+				}
+			},
+			geo : {
+				map : 'china',
+				label : {
+					emphasis : {
+						show : false
+					}
+				},
+				//roam: true,
+				itemStyle : {
+					normal : {
+						areaColor : '#323c48',
+						borderColor : '#111'
+					},
+					emphasis : {
+						areaColor : '#2a333d'
+					}
+				},
+				zlevel : 2
+			},
+			series : [//散点样式
+				{
+					//name: '签名',
+					type : 'scatter',
+					coordinateSystem : 'geo',
+					symbolSize : 5,
+					label : {
+						normal : {
+							formatter : '{b}',
+							position : 'right',
+							show : false
+						},
+						emphasis : {
+							show : true
+						}
+					},
+					data : convertData(data),
+					zlevel : 2
+				} ]
+		};
+		myChart.setOption(option);
+	});
 
-    var cityData = {
-        '1100':{'name':'北京','value':[116.405285,39.904989]},
-        '3301':{'name':'杭州','value':[119.5313,29.8773]},
-        '4301':{'name':'长沙','value':[113.0823,28.2568]}
-    };
-    var data = [{"areacode":"1100","total":"10000"},{"areacode":"4301","total":"2000"},{"areacode":"3301","total":"21000"}];
-    var convertData = function (data) {
-        var res = [];
-        for (var i = 0; i < data.length; i++) {
-            var geoCoord = cityData[data[i].areacode]['value'];
-            if (geoCoord) {
-                res.push({
-                    name: cityData[data[i].areacode]['name'],
-                    value: geoCoord.concat(data[i].total)
-                });
-            }
-        }
-        return res;
-    };
+	//setInterval(function() { getData();}, 30000);
 
+	/*function getData() {
+		window.data;
+		debugger;
+		$.ajax({
+			async : false,
+			cache : false,
+			type : 'GET',
+			url : '../../main/rpc/getSignAreaData.json',
+			dataType : "json",
+			success : function(data) {
+				if (data.success === true) {
+					data = convertData(data.context.data);
+				} else {
+					data = [];
+				}
+			}
+		});
+	}*/
+
+	function convertData(data) {
+		data = JSON.parse(data).context.data;
+		//debugger;
+		var res = [];
+		for (var i = 0; i < data.length; i++) {
+			try{
+				var areacode = cityData[data[i].areacode];
+			}catch(e){
+				continue
+			}
+			if (undefined != areacode || null != areacode) {
+				var geoCoord = cityData[data[i].areacode]['value'];
+				if (geoCoord) {
+					res.push({
+						name : cityData[data[i].areacode]['name'],
+						value : geoCoord.concat(data[i].total)
+					});
+				}
+			}
+		}
+		return res;
+	}
 </script>
 </body>
 </html>
