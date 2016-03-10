@@ -61,7 +61,8 @@
 	// 地图层
 	var myChart = echarts.init(document.getElementById('main'));
 
-	$.get('../../main/rpc/getSignAreaData.json', function (data) {
+	//$.get('../../main/rpc/getSignAreaData.json', function (data) {
+	$.get('../data/data.json', function (data) {
 		option = {
 			backgroundColor : '#a2daf4',
 			title : {
@@ -91,7 +92,7 @@
 			 },*/
 			visualMap : {
 				min : 0,
-				max : 1000,
+				max : 100000,
 				calculable : true,
 				inRange : {
 					color : [ '#F7A119', '#F7A119' ],
@@ -109,7 +110,7 @@
 						show : false
 					}
 				},
-				//roam: true,
+				roam: true,
 				itemStyle : {
 					normal : {
 						areaColor : '#323c48',
@@ -166,7 +167,8 @@
 	}*/
 
 	function convertData(data) {
-		data = JSON.parse(data).context.data;
+		//data = JSON.parse(data).context.data;
+		data = data.context.data;
 		//debugger;
 		var res = [];
 		for (var i = 0; i < data.length; i++) {
