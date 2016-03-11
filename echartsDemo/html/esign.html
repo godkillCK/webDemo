@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<title>eSign</title>
+	<!-- 引入 echarts.js -->
+    <script src="../js/jquery-1.12.1.js"></script>
+	<script src="../js/echarts.js"></script>
+	<script src="../map/china.js"></script>
+	<!--<script src="../map/world.js"></script>-->
+	<script src="../js/countUp.js"></script>
+	<script src="../data/china-city-geo.js"></script>
+
+	<link type="text/css" rel="stylesheet" href="../css/bootstrap.css" />
+	<link type="text/css" rel="stylesheet" href="../css/SourceSansPro.css" />
+
+	<style>
+		h1.jumbo {
+			font-family: 'Source Sans Pro';
+			font-size: 6em;
+			margin-top: 10%;
+			color: #f7a119;
+		}
+	</style>
+</head>
+
+<body class="container-fluid">
+
+<!--<div id="back"
+     style="position: absolute; z-index: 11; width: 100%; height: 100%;">
+    <img src="../img/map-world.png" style="max-width:100%;"/>
+</div>-->
+<div id="main"
+	 style="position: absolute; z-index: 3; width: 100%; height: 100%;">
+</div>
+<!--<div id="main1"
+     style="position: absolute; z-index: 2; width: 100%; height: 100%; background-color: #d58512">
+    <img src="../img/map-world.png">
+</div>-->
+<!--<div id="main1"-->
+     <!--style="position: absolute; z-index: 2; width: 100%; height: 100%;">-->
+    <!--<img src="../img/map-world.png" style="max-width:100%;"/>-->
+<!--</div>-->
+<div class="row">
+	<div class="col-lg-4 col-md-4"
+         style="z-index: 3;">
+		<img src="../img/esign.png" style="margin-left: 6%; margin-top: 2%;">
+        <p style="font-size: 30px;color: #FFFFFF;display: inline;overflow:hidden;vertical-align:middle;">/ 领先的第三方电子签名平台</p>
+	</div>
+
+	<div id="amount"
+		 class="col-lg-4 col-md-4 text-center "
+		 style="z-index: 3;">
+		<h1 id="total" class="jumbo"></h1>
+        <div style="height: 2px;width: 50%;background: #FFFFFF;margin-left: 25%;"></div>
+        <div style="font-size: 30px;color: #FFFFFF;margin-top: 3%">e签宝注册累计</div>
+	</div>
+
+	<div class="col-lg-4 col-md-4"></div>
+</div>
+<script src="../js/esign.js"></script>
+</body>
+</html>
