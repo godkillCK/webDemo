@@ -9,18 +9,20 @@
 
 // 地图层
 var myChart = echarts.init(document.getElementById('main'));
-$.get('../map/my-world.json', function(worldJson){
+$.get('../map/my-geo.json', function(worldJson){
     echarts.registerMap('world', worldJson);
 
 
-$.get('../data/testData.json', function (data) {
+$.get('../data/data.json', function (data) {
     option = {
-        backgroundColor: '#a2daf4',
+        //backgroundColor: '#a2daf4',
         tooltip: {
-            trigger: 'item'/*,
+            trigger: 'item',
              formatter : function(params) {//定制散点的提示格式
-             return params.name + ' : ' + params.value[2];
-             }*/
+                 //console.log(params.name + ', ' + params.value[1]);
+                 console.log(params.value[0] + ', ' + params.value[1]);
+                 return params.value[0] + ' : ' + params.value[1];
+             }
         },
         /*visualMap: {
             min: 0,
@@ -61,25 +63,27 @@ $.get('../data/testData.json', function (data) {
         series: [//散点样式
             {
                 //name: '签名',
-                type: 'scatter',
-                coordinateSystem: 'geo',
-                symbolSize: 10,
-                large: true,
-                itemStyle: {
-                    normal: {
-                        shadowBlur: 2,
-                        shadowColor: 'rgba(37, 140, 249, 0.8)',
-                        color: 'rgba(37, 140, 249, 0.8)'
+                type : 'scatter',
+                coordinateSystem : 'geo',
+                symbolSize : 5,
+                label : {
+                    normal : {
+                        formatter : '{b}',
+                        position : 'right',
+                        show : false
+                    },
+                    emphasis : {
+                        show : true
                     }
                 },
-                data: data,
-                zlevel: 4
+                data : convertData(data),
+                zlevel : 4
             }]
     };
     myChart.setOption(option);
 });
 });
-setInterval(function () {
+/*setInterval(function () {
     getTotal();
 }, 5000);
 
@@ -108,7 +112,7 @@ function getTotal() {
             }
         }
     });
-}
+}*/
 
 function convertData(data) {
     //data = JSON.parse(data).context.data;
@@ -132,7 +136,7 @@ function convertData(data) {
                 });
             }
         } else {
-            console.log(data[i]);
+            //console.log(data[i]);
         }
     }
     return res;
