@@ -343,6 +343,12 @@ function convertData(data) {
     }
 })(jQuery);
 
+var numRun2 = $("#numberRun2").numberAnimate({num:1158732, speed:2000, symbol:","});
+var startNum = 1153812;
+numRun2.resetData(startNum);
+var width = startNum.toString().length * 2 / 29 * 100 + '%';
+$('#line').css('width', width);
+/*
 var startNum;
 var numRun2;
 $(function(){
@@ -383,3 +389,4 @@ function refresh() {
         }
     });
 }
+*/
