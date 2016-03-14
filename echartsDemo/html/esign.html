@@ -14,19 +14,11 @@
 	<link type="text/css" rel="stylesheet" href="../css/bootstrap.css" />
 	<link type="text/css" rel="stylesheet" href="../css/SourceSansPro.css" />
 
-	<style>
-		h1.jumbo {
-			font-family: 'Source Sans Pro';
-			font-size: 6em;
-			margin-top: 10%;
-			color: #f7a119;
-		}
-	</style>
     <style>
         /*数字滚动插件的CSS可调整样式*/
-        .mt-number-animate{ font-family: 'Source Sans Pro'; color: #f7a119; line-height:40px; height: 40px;/*设置数字显示高度*/; font-size: 46px;/*设置数字大小*/ overflow: hidden; display: inline-block; position: relative; }
-        .mt-number-animate .mt-number-animate-dot{ width: 15px;/*设置分割符宽度*/ line-height: 40px; float: left; text-align: center;}
-        .mt-number-animate .mt-number-animate-dom{ width: 20px;/*设置单个数字宽度*/ text-align: center; float: left; position: relative; top: 0;}
+        .mt-number-animate{ font-family: 'Source Sans Pro'; margin-top: 10%; color: #f7a119; line-height:4vw; height: 4vw;/*设置数字显示高度*/; font-size: 4vw;/*设置数字大小*/ overflow: hidden; display: inline-block; position: relative; }
+        .mt-number-animate .mt-number-animate-dot{ width: 1vw;/*设置分割符宽度*/ line-height: 4vw; float: left; text-align: center;}
+        .mt-number-animate .mt-number-animate-dom{ width: 2vw;/*设置单个数字宽度*/ text-align: center; float: left; position: relative; top: 0;}
         .mt-number-animate .mt-number-animate-dom .mt-number-animate-span{ width: 100%; float: left;}
     </style>
 </head>
@@ -51,8 +43,8 @@
 		 class="col-lg-4 col-md-4 text-center "
 		 style="z-index: 3;">
 		<h1 id="numberRun2" ></h1>
-        <div style="height: 2px;width: 50%;background: #FFFFFF;margin-left: 25%;"></div>
-        <div style="font-size: 30px;color: #FFFFFF;margin-top: 3%">e签宝注册累计</div>
+        <div id="line" style="height: 0.1vw;background: #FFFFFF;margin:0px auto;"></div>
+        <div style="font-size: 1.5vw;color: #FFFFFF;margin-top: 3%">e签宝注册累计</div>
 	</div>
 
 	<div class="col-lg-4 col-md-4"></div>
@@ -66,12 +58,10 @@
         alert(window.screen.height);*/
 
         var mycv = document.getElementById("cv");
-        //mycv.width = image.width;
-        //mycv.height = image.height;
         mycv.width = image.width;
         mycv.height = image.height;
         var myctx = mycv.getContext("2d");
-        //myctx.scale(0.94,0.94);
+        myctx.scale(0.915,1);
         myctx.drawImage(image, 0, 0);
 
     }

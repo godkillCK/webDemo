@@ -40,7 +40,7 @@ $.get('../data/data.json', function (data) {
         },*/
         geo: {
             map: 'china',
-            left: '28%',
+            //left: '28%',
             top: '14%',
             label: {
                 emphasis: {
@@ -59,7 +59,7 @@ $.get('../data/data.json', function (data) {
             },
             zlevel: 4
         },
-        series: [//散点样式
+        /*series: [//散点样式
             {
                 name: '签名',
                 type : 'effectScatter',
@@ -113,11 +113,107 @@ $.get('../data/data.json', function (data) {
                 },
                 data : convertData(data),
                 zlevel : 4
-            }]
+            }]*/
+        legend: {
+            left: 'left',
+            top: 'bottom',
+            data: ['强', '中', '弱'],
+            textStyle: {
+                color: '#000'
+            }
+        },
+        series: [{
+            name: '弱',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbolSize: 5,
+            large: true,
+            itemStyle: {
+                normal: {
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(37, 140, 249, 0.8)',
+                    color: 'rgba(37, 140, 249, 0.8)'
+                }
+            },
+            data: convertData(data)[0],
+            zlevel : 4
+        }, {
+            name: '中',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbolSize: 5,
+            large: true,
+            itemStyle: {
+                normal: {
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(14, 241, 242, 0.8)',
+                    color: 'rgba(14, 241, 242, 0.8)'
+                }
+            },
+            data: convertData(data)[1],
+            zlevel : 4
+        }, {
+            name: '强',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbolSize: 5,
+            large: true,
+            itemStyle: {
+                normal: {
+                    shadowBlur: 2,
+                    shadowColor: 'rgba(255, 255, 255, 0.8)',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                }
+            },
+            data: convertData(data)[2],
+            zlevel : 4
+        }]
     };
     myChart.setOption(option);
 });
 });
+
+function convertData(data) {
+    //data = JSON.parse(data).context.data;
+    data = data.context.data;
+    //debugger;
+    var results = [[],[],[]];
+    for (var i = 0; i < data.length; i++) {
+        try {
+            var areacode = cityData[data[i].areacode];
+        } catch (e) {
+            console.log(data[i]);
+            continue
+        }
+
+        if (undefined != areacode || null != areacode) {
+            var geoCoord = areacode['value'];
+
+            if (geoCoord) {
+                if (data[i].total <= 10) {
+                    results[0].push({
+                        name: areacode['name'],
+                        value: geoCoord.concat(data[i].total)
+                    });
+                } else if (data[i].total <= 100) {
+                    results[1].push({
+                        name: areacode['name'],
+                        value: geoCoord.concat(data[i].total)
+                    });
+                } else {
+                    results[2].push({
+                        name: areacode['name'],
+                        value: geoCoord.concat(data[i].total)
+                    });
+                }
+            }
+        } else {
+            //console.log(data[i]);
+        }
+    }
+    return results;
+}
+
 
 //滚动数字
 (function($) {
@@ -247,22 +343,27 @@ $.get('../data/data.json', function (data) {
     }
 })(jQuery);
 
+var startNum;
+var numRun2;
 $(function(){
+    $.get('http://localhost:8080/analyze/main/rpc/getSignCount.json', function (data) {
+        if (data.success === true) {
+            // 刷新总数
+            startNum = data.context.count;
+            numRun2 = $("#numberRun2").numberAnimate({num:startNum, speed:2000, symbol:","});
+            numRun2.resetData(startNum);
 
-    var numRun2 = $("#numberRun2").numberAnimate({num:'15343242', speed:2000, symbol:","});
-    var nums2 = 15343245;
+            var width = startNum.toString().length * 2 / 29 * 100 + '%';
+            $('#line').css('width', width);
+        }
+    });
+
     setInterval(function(){
-        nums2 = 15343153;
-        numRun2.resetData(nums2);
-    },2000);
-
+        refresh();
+    },5000);
 });
-/*setInterval(function () {
-    getTotal();
-}, 5000);
 
-var startVal = 0;
-function getTotal() {
+function refresh() {
     $.ajax({
         async: false,
         cache: false,
@@ -271,48 +372,14 @@ function getTotal() {
         dataType: "jsonp",
         success: function (data) {
             if (data.success === true) {
-                // 实时总数展现
-                var numOptions = {
-                    useEasing: true,
-                    useGrouping: true,
-                    separator: ',',
-                    decimal: '.',
-                    prefix: '',
-                    suffix: ''
-                };
-                var demo = new CountUp("total", startVal, data.context.count, 0, 2.5, numOptions);
-                startVal = data.context.count;
-                demo.start();
+                // 刷新总数
+                startNum = data.context.count;
+                numRun2 = $("#numberRun2").numberAnimate({num:startNum, speed:2000, symbol:","});
+                numRun2.resetData(startNum);
+
+                var width = startNum.toString().length * 2 / 29 * 100 + '%';
+                $('#line').css('width', width);
             }
         }
     });
-}*/
-
-function convertData(data) {
-    //data = JSON.parse(data).context.data;
-    data = data.context.data;
-    //debugger;
-    var res = [];
-    for (var i = 0; i < data.length; i++) {
-        try {
-            var areacode = cityData[data[i].areacode];
-        } catch (e) {
-            console.log(data[i]);
-            continue
-        }
-
-        if (undefined != areacode || null != areacode) {
-            var geoCoord = areacode['value'];
-
-            if (geoCoord) {
-                res.push({
-                    name: areacode['name'],
-                    value: geoCoord.concat(data[i].total)
-                });
-            }
-        } else {
-            //console.log(data[i]);
-        }
-    }
-    return res;
 }
