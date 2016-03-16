@@ -30379,9 +30379,9 @@ define('echarts/coord/geo/parseGeoJson',['require','zrender/core/util','./Region
         }
         // Has been decoded
         json.UTF8Encoding = false;
-        debugger;
+        /*debugger;
         var jsonStr = JSON.stringify(json);
-        console.log(jsonStr);
+        console.log(jsonStr);*/
         return json;
     }
 

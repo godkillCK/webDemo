@@ -40,7 +40,20 @@
     // =========================================
     // 基于准备好的dom，初始化echarts实例
 
-    $.get('../map/province/anhui.json', function (mapJson) {
+    $.get('../map/province/liaoning.json', function (mapJson) {
+
+        var jsonObj = {};
+        for (var i=0; i<mapJson.features.length; i++) {
+            var tmp = {};
+            var id = mapJson.features[i].id;
+            var name = mapJson.features[i].properties.name;
+            var value = mapJson.features[i].properties.cp;
+            tmp['name'] = name;
+            tmp['value'] = value;
+            jsonObj[id] = tmp;
+        }
+        console.log(JSON.stringify(jsonObj));
+
         echarts.registerMap('test', mapJson);
         var chart = echarts.init(document.getElementById('map'));
         chart.setOption({
