@@ -15,6 +15,7 @@
 
 <script>
     var myChart = echarts.init(document.getElementById('main'));
+    var minData = new Date().getFullYear();
 
     option = {
         title: {
@@ -53,9 +54,10 @@
             }
         },
         xAxis: {
-            type: 'category',
+            type: 'time',
             boundaryGap: false,
-            data: ['周一','周二','周三','周四','周五','周六','周日']
+            min: minData/*,
+            max: maxData*/
         },
         yAxis: {
             type: 'value'
